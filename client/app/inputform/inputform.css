@@ -1,0 +1,332 @@
+body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .container {
+    width: 100%;
+    max-width: 1200px;
+    display: flex;
+    justify-content: space-between;
+    gap: 40px;
+    background-color: #000;
+    padding: 30px;
+    border-radius: 16px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
+    flex-wrap: wrap;
+  }
+  
+  h1 {
+    font-size: 24px;
+    font-weight: 600;
+    margin-bottom: 20px;
+    text-align: center;
+    width: 100%;
+  }
+  
+  /* Form container with inputs */
+  .form-container {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    width: 100%;
+    max-width: 400px;
+    align-self: flex-start;
+  }
+  
+  .input-group {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    width: 100%;
+  }
+  
+  input {
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.082);
+    font-size: 15px;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    font-family: 'General Sans', sans-serif;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  
+  /* Style the select dropdown to match input fields */
+  select {
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.082);
+    font-size: 15px;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    font-family: 'General Sans', sans-serif;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    -webkit-appearance: none;  /* Remove default dropdown appearance */
+    -moz-appearance: none;
+    appearance: none;
+    background-color: rgba(255, 255, 255, 0.1); /* Change background color of the dropdown */
+  }
+  
+  /* Remove the default arrow in browsers */
+  select::-ms-expand {
+    display: none; /* Remove default dropdown arrow in Internet Explorer */
+  }
+  
+  /* Style the dropdown options */
+  select option {
+    background-color: #222;  /* Dark background color for options */
+    color: white;  /* White text color */
+    padding: 15px;
+    font-size: 15px;
+    font-family: 'General Sans', sans-serif;
+  }
+  
+  /* Optional: Highlighted option on hover */
+  select option:hover {
+    background-color: #444;  /* Lighter dark background color on hover */
+  }
+  
+  /* Focus Styles for Select */
+  select:focus {
+    outline: none;
+    background-color: rgba(255, 255, 255, 0.1);  /* Slightly darker on focus */
+    box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.3);  /* Subtle focus effect */
+  }
+  
+  /* Custom Arrow for select dropdown */
+  select {
+    background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zY2h...'); /* Insert a custom down arrow icon */
+    background-position: right 10px center;
+    background-repeat: no-repeat;
+    background-size: 16px;
+  }
+  
+  
+  button.submit-button {
+    padding: 15px 25px;
+    border: none;
+    background-color: #fff;
+    color: #000;
+    font-size: 16px;
+    font-weight: 600;
+    border-radius: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  button.submit-button:hover {
+    background-color: #ddd;
+  }
+  
+  /* Zodiac Signs */
+  .starsign-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+    width: 100%;
+    padding: 20px;
+    animation: fadeIn 1s ease-out;
+    max-width: 600px; /* Limit the width of the grid */
+  }
+  
+  .star-sign-box {
+    background-color: #222;
+    padding: 20px;
+    border-radius: 16px;
+    text-align: center;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    opacity: 0.8;
+  }
+  
+  .star-sign-box.highlighted {
+    background-color: #fff;
+    color: #000;
+    transform: scale(1.1);
+    opacity: 1;
+  }
+  
+  .star-sign-box.dob-entered.highlighted {
+    border: 2px solid #fff;
+  }
+  
+  .sign-english {
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 10px;
+  }
+  
+  .sign-hindi {
+    font-size: 14px;
+    margin-bottom: 10px;
+    color: #ddd;
+  }
+  
+  .sign-dates {
+    font-size: 12px;
+    color: #888;
+  }
+  
+  /* React Datepicker */
+  .react-datepicker-wrapper {
+    width: 100%;
+  }
+  
+  .react-datepicker__input-container {
+    width: 100%;
+  }
+  
+  .react-datepicker__input-container input {
+    width: 100%;
+    padding: 15px 20px;
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.082);
+    color: #fff;
+    font-size: 16px;
+    font-family: 'General Sans', sans-serif;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  
+  .react-datepicker__input-container input:hover {
+    border-color: #666;
+  }
+  
+  .react-datepicker__input-container input:focus {
+    outline: none;
+    border-color: #888;
+    box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.3);
+  }
+  
+  .react-datepicker {
+    font-family: 'General Sans', sans-serif;
+    background-color: #000;
+    border: 1px solid #fff;
+    border-radius: 16px;
+    padding: 16px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
+  }
+  
+  .react-datepicker__header {
+    background-color: #222;
+    border-bottom: 1px solid #fff;
+    border-radius: 16px 16px 0 0;
+    padding-top: 16px;
+  }
+  
+  .react-datepicker__current-month {
+    color: #fff;
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 12px;
+  }
+  
+  .react-datepicker__navigation {
+    top: 20px;
+  }
+  
+  .react-datepicker__navigation-icon::before {
+    border: none;
+    transition: border-color 0.2s ease;
+  }
+  
+  .react-datepicker__navigation:hover .react-datepicker__navigation-icon::before {
+    border: none;
+  }
+  
+  .react-datepicker__day-names {
+    margin-top: 8px;
+  }
+  
+  .react-datepicker__day-name {
+    color: #fff;
+    font-size: 14px;
+    width: 36px;
+    height: 36px;
+    line-height: 36px;
+    margin: 2px;
+  }
+  
+  .react-datepicker__month {
+    margin: 8px 0;
+  }
+  
+  .react-datepicker__day {
+    background-color: #444;
+    color: #fff;
+    width: 36px;
+    height: 36px;
+    line-height: 36px;
+    margin: 2px;
+    border-radius: 10px;
+    transition: all 0.2s ease;
+  }
+  
+  .react-datepicker__day:hover {
+    background-color: #555;
+  }
+  
+  .react-datepicker__day--selected {
+    background-color: #fff !important;
+    color: #000 !important;
+    font-weight: 600;
+  }
+  
+  .react-datepicker__day--selected:hover {
+    background-color: #fff !important;
+  }
+  
+  .react-datepicker__day--today {
+    position: relative;
+    font-weight: 600;
+    background-color: #fff;
+    color: #000;
+  }
+  
+  .react-datepicker__day--outside-month {
+    color: #666;
+  }
+  
+  .react-datepicker__day--disabled {
+    color: #666;
+    cursor: not-allowed;
+  }
+  
+  .react-datepicker__day--disabled:hover {
+    background-color: transparent;
+  }
+  
+  .react-datepicker__triangle {
+    display: none;
+  }
+  
+  .react-datepicker__month-container {
+    float: none;
+  }
+  
+  .react-datepicker-popper {
+    animation: calendarFadeIn 0.2s ease-out;
+  }
+  
+  @keyframes calendarFadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(-8px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(-10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }

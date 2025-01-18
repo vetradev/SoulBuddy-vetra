@@ -1,0 +1,211 @@
+/* General Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  html, body {
+    min-height: 100vh;
+    background-color: #000000;
+    overflow-x: hidden;
+    margin: 0;
+    padding: 0;
+  }
+  
+  /* Main container styles */
+  .dashboard-container {
+    background-color: #000000;
+    min-height: 100vh;
+    width: 100%;
+    padding: 40px 20px;
+    color: #ffffff;
+    font-family: 'Inter', sans-serif;
+    position: relative;
+    overflow: auto;
+  }
+  
+  .dashboard-title {
+    text-align: center;
+    font-size: 2.5rem;
+    padding: 20px 0;
+    margin-bottom: 40px;
+    color: #ffffff;
+    font-weight: 500;
+    position: relative;
+  }
+  
+  /* Insights container grid layout */
+  .insights-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+    gap: 24px;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 20px;
+    position: relative;
+  }
+  
+  /* Individual insight block styling */
+  .insight-block {
+    background-color: #1a1a1a;
+    border-radius: 12px;
+    padding: 24px;
+    height: auto;
+    min-height: 200px;
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.2s ease, background-color 0.2s ease;
+    position: relative;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+  }
+  
+  .insight-block:hover {
+    background-color: #212121;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+  }
+  
+  /* Insight heading styles */
+  .insight-heading {
+    color: #ffffff;
+    font-size: 1.25rem;
+    margin-bottom: 16px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  
+  /* Numbered heading style */
+  .insight-heading::before {
+    content: attr(data-number) ") ";
+    color: #ffffff;
+    font-weight: 500;
+  }
+  
+  /* Insight content styles */
+  .insight-content {
+    color: #a0a0a0;
+    line-height: 1.6;
+    font-size: 1rem;
+    flex: 1;
+    margin: 0;
+    white-space: pre-line; /* Ensures Markdown content displays line breaks properly */
+  }
+  
+  .insight-content a {
+    color: #4a90e2;
+    text-decoration: none;
+    transition: color 0.2s ease;
+  }
+  
+  .insight-content a:hover {
+    color: #81c2f3;
+    text-decoration: underline;
+  }
+  
+  .insight-content strong {
+    color: #ffffff;
+    font-weight: bold;
+  }
+  
+  .insight-content em {
+    color: #d4d4d4;
+    font-style: italic;
+  }
+  
+  /* Loading state styles */
+  .loading-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 60vh;
+    gap: 20px;
+  }
+  
+  .loading-spinner {
+    width: 50px;
+    height: 50px;
+    border: 3px solid #333;
+    border-top: 3px solid #ffffff;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+  }
+  
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+  
+  /* Error message styles */
+  .error-message {
+    text-align: center;
+    color: #ff6b6b;
+    padding: 24px;
+    background: rgba(255, 107, 107, 0.1);
+    border-radius: 12px;
+    margin: 24px auto;
+    max-width: 600px;
+    width: 90%;
+  }
+  
+  /* No insights message styles */
+  .no-insights-message {
+    text-align: center;
+    color: #a0a0a0;
+    font-size: 1.1rem;
+    margin: 24px 0;
+  }
+  
+  /* Custom scrollbar */
+  ::-webkit-scrollbar {
+    width: 10px;
+  }
+  
+  ::-webkit-scrollbar-track {
+    background: #000000;
+  }
+  
+  ::-webkit-scrollbar-thumb {
+    background: #333333;
+    border-radius: 5px;
+  }
+  
+  ::-webkit-scrollbar-thumb:hover {
+    background: #444444;
+  }
+  
+  /* Responsive adjustments */
+  @media screen and (max-width: 1200px) {
+    .insights-container {
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    }
+  }
+  
+  @media screen and (max-width: 768px) {
+    .dashboard-container {
+      padding: 20px 10px;
+    }
+    
+    .dashboard-title {
+      font-size: 2rem;
+      margin-bottom: 30px;
+    }
+    
+    .insights-container {
+      grid-template-columns: 1fr;
+      padding: 0 10px;
+      gap: 16px;
+    }
+  
+    .insight-block {
+      padding: 20px;
+    }
+  
+    .insight-heading {
+      font-size: 1.1rem;
+    }
+  }
