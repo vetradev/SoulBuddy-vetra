@@ -26,7 +26,7 @@ export interface UserData {
     starsign: string;
 }
 
-export const zodiacData: ZodiacSign[] = [
+const zodiacData: ZodiacSign[] = [
     { english: "Aries", hindi: "मेष राशि", startDate: "03-21", endDate: "04-20" },
     { english: "Taurus", hindi: "वृषभ राशि", startDate: "04-21", endDate: "05-21" },
     { english: "Gemini", hindi: "मिथुन राशि", startDate: "05-22", endDate: "06-21" },
