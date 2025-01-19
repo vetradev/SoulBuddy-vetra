@@ -107,9 +107,11 @@ export default function InputForm() {
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
         sessionStorage.setItem('userData', JSON.stringify(userData));
-        sessionStorage.setItem('highlightedSign', JSON.stringify(highlightedSign));
+        if (highlightedSign) {
+            sessionStorage.setItem('highlightedSign', highlightedSign.english);  // Store only the sign's english name
+        }
         router.push('/user');
-    };
+    };    
 
     return (
         <div className="container">

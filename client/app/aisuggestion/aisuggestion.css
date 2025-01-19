@@ -1,0 +1,134 @@
+/* General Chat Container */
+.chat-container {
+    width: 100%;
+    padding: 16px;
+    background-color: black;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    border: 2px solid #666666;
+}
+
+/* Header Styles */
+.header {
+    text-align: center;
+    margin-bottom: 24px;
+}
+
+.title {
+    font-size: 32px;
+    font-weight: bold;
+    color: #ffffff;
+}
+
+.subtitle {
+    color: #cccccc;
+}
+
+/* Selection Containers */
+.selection-container {
+    width: 100%;
+    margin-bottom: 16px;
+    padding: 16px;
+}
+
+.section-title {
+    font-size: 18px;
+    font-weight: 600;
+    color: #ffffff;
+    margin-bottom: 12px;
+}
+
+.button-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.button {
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-size: 14px;
+    color: #ffffff;
+    background-color: #555555;
+    border: 1px solid #666666;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.button:hover {
+    background-color: #666666;
+}
+
+.button.selected {
+    background-color: #444444;
+    color: #ffffff;
+}
+
+/* Message Container */
+.message-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: max-content;
+    overflow-y: auto;
+    margin-bottom: 16px;
+}
+
+.message {
+    padding: 16px;
+    border-radius: 12px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+    margin-bottom: 8px;
+    width: 100%;
+}
+
+.user-message {
+    background-color: #444444;
+    margin-left: auto;
+    border-left: 4px solid #ffffff;
+}
+
+.response-message {
+    background-color: #333333;
+    margin-right: auto;
+    border-right: 4px solid #555555;
+}
+
+.error {
+    color: red;
+}
+
+.message-text {
+    color: #ffffff;
+}
+
+/* Loading Text */
+.loading {
+    color: #cccccc;
+}
+
+/* Submit Button */
+.submit-button {
+    padding: 12px 24px;
+    background-color: #444444;
+    color: white;
+    font-size: 16px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.submit-button:hover {
+    background-color: #333333;
+}
+
+.submit-button:disabled {
+    background-color: #555555;
+    cursor: not-allowed;
+}

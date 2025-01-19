@@ -1,5 +1,4 @@
 import { NextRequest, NextResponse } from 'next/server';
-
 import { createClient } from '@supabase/supabase-js';
 
 const supabase = createClient(
@@ -19,12 +18,10 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Normalize inputs
     const normalizedAge = parseInt(age);
     const normalizedQuality = sleepQuality.toLowerCase();
     const normalizedStress = stressLevel.toLowerCase();
 
-    // Validate inputs
     if (isNaN(normalizedAge) || normalizedAge < 0 || normalizedAge > 120) {
       return NextResponse.json({ error: 'Invalid age' }, { status: 400 });
     }
@@ -40,7 +37,6 @@ export async function POST(request: NextRequest) {
     let recommendedSleepHours = '';
     let sleepTips = '';
 
-    // Determine sleep recommendations
     if (normalizedAge <= 20) {
       if (normalizedQuality === 'good' && normalizedStress === 'low') {
         recommendedSleepHours = '7-8 hours';
@@ -65,7 +61,6 @@ export async function POST(request: NextRequest) {
       sleepTips = 'Focus on sleep quality and maintain a regular sleep schedule for healthy aging.';
     }
 
-    // Store in Supabase
     const { error: supabaseError } = await supabase
       .from('sleep_analysis')
       .insert([

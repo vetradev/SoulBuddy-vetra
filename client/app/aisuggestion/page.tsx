@@ -1,8 +1,37 @@
 'use client';
 
-import { useState, useEffect, FormEvent, ChangeEvent } from 'react';
-
+import { useState, useEffect, FormEvent } from 'react';
 import axios from 'axios';
+import './aisuggestion.css'; // Import the CSS file
+
+const ASTROLOGICAL_PURPOSES = [
+    "Career Growth",
+    "Marriage Timing",
+    "Business Success",
+    "Health Issues",
+    "Financial Prosperity",
+    "Education Success",
+    "Relationship Harmony",
+    "Child Birth",
+    "Property Matters",
+    "Foreign Travel",
+    "Legal Matters",
+    "Mental Peace",
+    "Family Conflicts",
+    "Spiritual Growth",
+    "Remove Negative Energy"
+] as const;
+
+const ASTROLOGICAL_CONCERNS = [
+    "Manglik dosha",
+    "Kundli matching issues",
+    "Rahu-Ketu influence",
+    "Shani Sade Sati",
+    "Health astrology",
+    "Financial hurdles",
+    "Relationship advice",
+    "Career roadblocks"
+] as const;
 
 interface Message {
     text: string;
@@ -15,29 +44,60 @@ interface APIResponse {
     error?: string;
 }
 
+interface StoredUserData {
+    name: string;
+    dob: string;
+    timeOfBirth: string;
+    gender: string;
+    state: string;
+    city: string;
+    starsign: string;
+    purposes?: string[];
+    concerns?: string[];
+}
+
 const LangflowChat = () => {
-    const [input, setInput] = useState('');
     const [messages, setMessages] = useState<Message[]>([]);
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState('');
+    const [selectedPurposes, setSelectedPurposes] = useState<string[]>([]);
+    const [selectedConcerns, setSelectedConcerns] = useState<string[]>([]);
 
-    const predefinedPrompt = `{
-        "name": "Rohan",
-        "age": 32,
-        "gender": "Male",
-        "date_of_birth": "1991-03-15",
-        "time_of_birth": "08:30 AM",
-        "place_of_birth": "Delhi, India",
-        "purpose": "Career growth and removing obstacles",
-        "specific_concerns": "Manglik dosha",
-        "astrological_sign": "Pisces",
-        "output_format": "HTML"
-    }`;
+    const formatPrompt = (userData: StoredUserData) => {
+        const birthDate = new Date(userData.dob);
+        const today = new Date();
+        let age = today.getFullYear() - birthDate.getFullYear();
+        const monthDiff = today.getMonth() - birthDate.getMonth();
+        if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
+            age--;
+        }
 
-    const callAPI = async (userMessage: string): Promise<APIResponse> => {
+        const formattedDate = new Date(userData.dob).toISOString().split('T')[0];
+        const formattedPurposes = userData.purposes?.length
+            ? userData.purposes.join(", ")
+            : "General consultation";
+        const formattedConcerns = userData.concerns?.length
+            ? userData.concerns.join(", ")
+            : "None specified";
+
+        return JSON.stringify({
+            name: userData.name,
+            age: age,
+            gender: userData.gender,
+            date_of_birth: formattedDate,
+            time_of_birth: userData.timeOfBirth,
+            place_of_birth: `${userData.city}, ${userData.state}, India`,
+            purpose: formattedPurposes,
+            specific_concerns: formattedConcerns,
+            astrological_sign: userData.starsign || "Not specified",
+            output_format: "HTML"
+        }, null, 4);
+    };
+
+    const callAPI = async (formattedPrompt: string): Promise<APIResponse> => {
         try {
             const response = await axios.post(process.env.NEXT_PUBLIC_URL!, {
-                input: userMessage
+                input: formattedPrompt
             }, {
                 headers: {
                     'Content-Type': 'application/json',
@@ -57,31 +117,36 @@ const LangflowChat = () => {
             return { output: messageText };
         } catch (error) {
             console.error('Error:', error);
-            if (axios.isAxiosError(error)) {
-                const errorMessage = error.response?.data?.error || 'API request failed';
-                setError(errorMessage);
-            } else {
-                setError('An unknown error occurred');
-            }
-            return {
-                output: "🙏 Kindly try again in a moment, facing connection issues."
-            };
+            setError(axios.isAxiosError(error) ? error.response?.data?.error || 'API request failed' : 'An unknown error occurred');
+            return { output: "🙏 Kindly try again in a moment, facing connection issues." };
         }
     };
 
-    const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
-        e.preventDefault();
-        if (!input.trim()) return;
+    const toggleSelection = (item: string, setSelected: React.Dispatch<React.SetStateAction<string[]>>) => {
+        setSelected(prev => {
+            const newSelection = prev.includes(item)
+                ? prev.filter(p => p !== item)
+                : [...prev, item];
+            return newSelection;
+        });
+    };
 
-        const userMessage = input.trim();
-        setInput('');
-        setError('');
+    const handleSubmit = async () => {
+        const storedUserData = sessionStorage.getItem('userData');
+        if (!storedUserData) {
+            console.error('No user data found in session storage');
+            return;
+        }
+
+        const userData = JSON.parse(storedUserData) as StoredUserData;
+        userData.purposes = selectedPurposes;
+        userData.concerns = selectedConcerns;
+
+        const formattedPrompt = formatPrompt(userData);
         setIsLoading(true);
 
-        setMessages(prev => [...prev, { text: userMessage, isUser: true }]);
-
         try {
-            const response = await callAPI(userMessage);
+            const response = await callAPI(formattedPrompt);
             setMessages(prev => [...prev, {
                 text: response.output || "🙏 Could you please rephrase your question?",
                 isUser: false
@@ -98,66 +163,65 @@ const LangflowChat = () => {
         }
     };
 
-    const handleInputChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
-        setInput(e.target.value);
-    };
-
-    useEffect(() => {
-        const sendPredefinedPrompt = async () => {
-            setIsLoading(true);
-            try {
-                const response = await callAPI(predefinedPrompt);
-                setMessages(prev => [...prev, {
-                    text: response.output || "🙏 Could you please rephrase your question?",
-                    isUser: false
-                }]);
-            } catch (error) {
-                console.error('Error sending predefined prompt:', error);
-                setMessages(prev => [...prev, {
-                    text: "🙏 Our services are temporarily unavailable. Please try again later.",
-                    isUser: false,
-                    isError: true
-                }]);
-            } finally {
-                setIsLoading(false);
-            }
-        };
-
-        sendPredefinedPrompt();
-    }, []);
-
     return (
-        <div className="w-full p-4  bg-gradient-to-b h-screen flex items-center justify-center flex-col from-orange-50 to-orange-100 rounded-lg shadow-lg border-2 border-orange-200">
-            <div className="text-center mb-6">
-                <h1 className="text-3xl font-bold text-orange-800">🕉️ Jyotish Guide</h1>
-                <p className="text-orange-600">Vedic Astrology Consultation</p>
+        <div className="chat-container">
+            <div className="header">
+                <h1 className="title">🕉️ Pooja Suggestions</h1>
             </div>
 
-            <div className="mb-4 flex items-center justify-center flex-col  space-y-4 h-full overflow-y-auto">
+            <div className="selection-container">
+                <h3 className="section-title">Select Your Consultation Purposes:</h3>
+                <div className="button-group">
+                    {ASTROLOGICAL_PURPOSES.map(purpose => (
+                        <button
+                            key={purpose}
+                            onClick={() => toggleSelection(purpose, setSelectedPurposes)}
+                            className={`button ${selectedPurposes.includes(purpose) ? 'selected' : ''}`}
+                        >
+                            {purpose}
+                        </button>
+                    ))}
+                </div>
+            </div>
+
+            <div className="selection-container">
+                <h3 className="section-title">Select Your Concerns:</h3>
+                <div className="button-group">
+                    {ASTROLOGICAL_CONCERNS.map(concern => (
+                        <button
+                            key={concern}
+                            onClick={() => toggleSelection(concern, setSelectedConcerns)}
+                            className={`button ${selectedConcerns.includes(concern) ? 'selected' : ''}`}
+                        >
+                            {concern}
+                        </button>
+                    ))}
+                </div>
+            </div>
+
+            <div className="message-container">
                 {messages.map((message, index) => (
                     <div
                         key={index}
-                        className={`p-4 rounded-lg  shadow-sm ${message.isUser
-                            ? 'bg-orange-200 ml-auto w-full  border-l-4 border-orange-400'
-                            : 'bg-yellow-50 mr-auto  border-r-4 border-yellow-400'
-                            }`}
+                        className={`message ${message.isUser ? 'user-message' : 'response-message'} ${message.isError ? 'error' : ''}`}
                     >
-
                         <div
-                            className={`${message.isError ? 'text-red-500' : 'text-orange-900'}`}
-                            dangerouslySetInnerHTML={{ __html: message.text.slice(8) }}
+                            className="message-text"
+                            dangerouslySetInnerHTML={{ __html: message.text }}
                         />
                     </div>
                 ))}
             </div>
 
-            {/* <form onSubmit={handleSubmit} className="space-y-4">
-                {error && (
-                    <div className="p-3 text-red-500 bg-red-50 rounded-lg border border-red-200">
-                        {error}
-                    </div>
-                )}
-            </form> */}
+            {isLoading && <div className="loading">Fetching your astrological insights...</div>}
+
+            <button
+                onClick={handleSubmit}
+                disabled={isLoading}
+                className="submit-button"
+            >
+                {isLoading ? 'Loading...' : 'Submit'}
+            </button>
         </div>
     );
 };
