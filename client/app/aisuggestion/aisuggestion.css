@@ -64,8 +64,8 @@
 }
 
 .button.selected {
-    background-color: #444444;
-    color: #ffffff;
+    background-color: white;
+    color: black;
 }
 
 /* Message Container */
