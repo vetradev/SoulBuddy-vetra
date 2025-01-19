@@ -7,28 +7,37 @@ const supabase = createClient(
 );
 
 export async function GET(request: NextRequest) {
-  const searchParams = request.nextUrl.searchParams;
-  const zodiacName = searchParams.get('zodiacName');
+  try {
+    const searchParams = request.nextUrl.searchParams;
+    const zodiacName = searchParams.get('zodiacName');
 
-  if (!zodiacName) {
-    return NextResponse.json({ error: 'Zodiac sign is required' }, { status: 400 });
-  }
+    if (!zodiacName) {
+      return NextResponse.json({ error: 'Zodiac sign is required' }, { status: 400 });
+    }
 
-  const { data, error } = await supabase
-    .from('zodiac_signs')
-    .select('*')
-    .ilike('zodiac_name', `%${zodiacName}%`);
+    const { data, error } = await supabase
+      .from('zodiac_signs')
+      .select('*')
+      .ilike('zodiac_name', `%${zodiacName}%`);
 
-  if (error) {
-    return NextResponse.json({ error: error.message }, { status: 500 });
-  }
+    if (error) {
+      console.error('Supabase error:', error);
+      return NextResponse.json({ error: error.message }, { status: 500 });
+    }
 
-  if (!data || data.length === 0) {
+    if (!data || data.length === 0) {
+      return NextResponse.json(
+        { message: 'No recommendations found for this zodiac sign' },
+        { status: 404 }
+      );
+    }
+
+    return NextResponse.json(data[0]);
+  } catch (error) {
+    console.error('Zodiac analysis error:', error);
     return NextResponse.json(
-      { message: 'No recommendations found for this zodiac sign' },
-      { status: 404 }
+      { error: 'Internal server error' },
+      { status: 500 }
     );
   }
-
-  return NextResponse.json(data[0]);
 }
