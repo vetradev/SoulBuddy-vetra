@@ -11,6 +11,7 @@ const Navbar: React.FC = () => {
         <li><a href="/spiritualcontent">Health and Sleep</a></li>
         <li><a href="/gems">Gemstones</a></li>
         <li><a href="https://vetra-chat.vercel.app/">Talk to someone</a></li>
+        <li><a href="/meditate">Meditation</a></li>
       </ul>
     </nav>
   );
