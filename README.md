@@ -1,6 +1,6 @@
 # Astrological Wellness Platform - Soul Buddy
 
-##Live Link : https://soul-buddy-vetra.vercel.app/
+Live Link : https://soul-buddy-vetra.vercel.app/
 
 ## Core Problem Being Solved
 The developers are attempting to bridge traditional astrological consultation with modern wellness tracking. The interesting challenge here is maintaining user context and state across different consultation paradigms while keeping the architecture clean and maintainable.
