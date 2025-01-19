@@ -1,0 +1,39 @@
+@font-face {
+    font-family: Mackinac;
+    src: url("/Fonts/Mackinac.otf");
+  }
+  
+  @font-face {
+    font-family: Neuton;
+    src: url("/Fonts/Neuton-SC-Regular.ttf");
+  }
+  
+  @font-face {
+    font-family: Prociono;
+    src: url("/Fonts/Prociono.otf");
+  }
+  
+  @import url('https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400..700;1,400..700&display=swap');
+  
+  * {
+    margin: 0;
+    padding: 0;
+    background-color: #faf7f2;
+    font-family: Mackinac, 'Merriweather', serif;
+  }
+  
+  body {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  /* Further styles from the CSS you provided */
+  #nav {
+    /* Styles here */
+  }
+  
+  /* Copy the rest of your CSS here for layout, buttons, text styling, etc. */
+  
