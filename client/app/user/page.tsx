@@ -4,7 +4,6 @@
 import { useEffect, useState } from 'react';
 import "./user.css"
 
-
 // types/zodiac.ts
 
 export interface ZodiacSign {
@@ -44,12 +43,9 @@ interface Insight {
     content: string;
 }
 
-interface PageProps {
-    API_KEY: "AIzaSyAWnR55bAcVvkpTlLBfAmUWyETcPbtXhVQ";
-}
+
 
 export default function UserDashboard() {
-    API_KEY: "AIzaSyAWnR55bAcVvkpTlLBfAmUWyETcPbtXhVQ";
     const [insights, setInsights] = useState<Insight[]>([]);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
@@ -61,8 +57,12 @@ export default function UserDashboard() {
         const savedSign = sessionStorage.getItem('highlightedSign');
 
         if (savedData && savedSign) {
-            setUserData(JSON.parse(savedData));
-            setHighlightedSign(JSON.parse(savedSign));
+            try {
+                setUserData(JSON.parse(savedData));
+                setHighlightedSign(JSON.parse(savedSign));
+            } catch (error) {
+                console.error('Error parsing user data from session storage:', error);
+            }
         }
     }, []);
 
@@ -151,6 +151,15 @@ export default function UserDashboard() {
         fetchInsights();
     }, [userData]);
 
+    const handleSaveUserData = () => {
+        if (userData) {
+            sessionStorage.setItem('userData', JSON.stringify(userData));
+        }
+        if (highlightedSign) {
+            sessionStorage.setItem('highlightedSign', JSON.stringify(highlightedSign));
+        }
+    };
+
     if (loading) {
         return (
             <div className="loading-container">
@@ -179,6 +188,7 @@ export default function UserDashboard() {
             ) : (
                 <p className="no-insights-message">No insights available at the moment.</p>
             )}
+            <button onClick={handleSaveUserData}>Save User Data</button>
         </div>
     );
 }
