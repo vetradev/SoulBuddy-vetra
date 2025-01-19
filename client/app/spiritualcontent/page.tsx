@@ -1,4 +1,4 @@
-"use client";
+"use client"
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -28,20 +28,18 @@ export default function ConversationalWellness() {
     { 
       type: 'bot', 
       content: (
-        <div className="space-y-4 text-white">
+        <div className="space-y-4">
           <p>Hi! I'm your wellness assistant. What would you like help with today?</p>
           <div className="flex flex-wrap gap-2">
             <Button 
               variant="outline" 
               onClick={() => handleInitialChoice('workout')}
-              className="border-white text-white hover:bg-gray-800"
             >
               Workout Recommendations
             </Button>
             <Button 
               variant="outline" 
               onClick={() => handleInitialChoice('sleep')}
-              className="border-white text-white hover:bg-gray-800"
             >
               Sleep Analysis
             </Button>
@@ -70,7 +68,7 @@ export default function ConversationalWellness() {
       addMessage({
         type: 'bot',
         content: (
-          <div className="space-y-4 text-white">
+          <div className="space-y-4">
             <p>Please select your zodiac sign for personalized workout recommendations:</p>
             <div className="grid grid-cols-3 gap-2">
               {zodiacSigns.map(sign => (
@@ -78,7 +76,7 @@ export default function ConversationalWellness() {
                   key={sign}
                   variant="outline"
                   onClick={() => handleZodiacSelect(sign)}
-                  className="text-sm border-white text-white hover:bg-gray-800"
+                  className="text-sm"
                 >
                   {sign}
                 </Button>
@@ -90,7 +88,7 @@ export default function ConversationalWellness() {
     } else {
       addMessage({
         type: 'bot',
-        content: "Let's analyze your sleep patterns! What's your age?",
+        content: "Let's analyze your sleep patterns! What's your age?"
       });
     }
   };
@@ -107,14 +105,14 @@ export default function ConversationalWellness() {
       addMessage({
         type: 'bot',
         content: (
-          <div className="space-y-2 text-white">
+          <div className="space-y-2">
             <p className="font-medium">Workout Recommendations for {zodiacSign}:</p>
             <p>{data.exercise_recommendations}</p>
             <p className="text-muted-foreground mt-2">{data.why_it_suits_them}</p>
             <Button 
               variant="outline" 
               onClick={() => handleInitialChoice('sleep')}
-              className="mt-4 border-white text-white hover:bg-gray-800"
+              className="mt-4"
             >
               Would you like a sleep analysis too?
             </Button>
@@ -144,7 +142,7 @@ export default function ConversationalWellness() {
         addMessage({
           type: 'bot',
           content: (
-            <div className="space-y-2 text-white">
+            <div className="space-y-2">
               <p>How would you rate your sleep quality?</p>
               <div className="flex flex-wrap gap-2">
                 {['Good', 'Fair', 'Poor'].map(quality => (
@@ -152,7 +150,6 @@ export default function ConversationalWellness() {
                     key={quality}
                     variant="outline"
                     onClick={() => handleSleepQualitySelect(quality, updatedUserData)}
-                    className="border-white text-white hover:bg-gray-800"
                   >
                     {quality}
                   </Button>
@@ -180,7 +177,7 @@ export default function ConversationalWellness() {
     addMessage({
       type: 'bot',
       content: (
-        <div className="space-y-2 text-white">
+        <div className="space-y-2">
           <p>What's your current stress level?</p>
           <div className="flex flex-wrap gap-2">
             {['High', 'Medium', 'Low'].map(level => (
@@ -188,7 +185,6 @@ export default function ConversationalWellness() {
                 key={level}
                 variant="outline"
                 onClick={() => handleStressLevelSelect(level, updatedUserData)}
-                className="border-white text-white hover:bg-gray-800"
               >
                 {level}
               </Button>
@@ -250,7 +246,7 @@ export default function ConversationalWellness() {
       addMessage({
         type: 'bot',
         content: (
-          <div className="space-y-2 text-white">
+          <div className="space-y-2">
             <p className="font-medium">Sleep Analysis Results:</p>
             <div className="bg-muted p-4 rounded-lg">
               <p>Age: {currentUserData.age}</p>
@@ -262,7 +258,7 @@ export default function ConversationalWellness() {
             <Button 
               variant="outline" 
               onClick={() => handleInitialChoice('workout')}
-              className="mt-4 border-white text-white hover:bg-gray-800"
+              className="mt-4"
             >
               Would you like workout recommendations?
             </Button>
@@ -275,12 +271,12 @@ export default function ConversationalWellness() {
       addMessage({
         type: 'bot',
         content: (
-          <div className="space-y-2 text-white">
+          <div className="space-y-2">
             <p>I apologize, but there was an issue analyzing your sleep data. Let's try again.</p>
             <Button 
               variant="outline" 
               onClick={() => handleInitialChoice('sleep')}
-              className="mt-4 border-white text-white hover:bg-gray-800"
+              className="mt-4"
             >
               Start Over
             </Button>
@@ -291,29 +287,31 @@ export default function ConversationalWellness() {
   };
 
   return (
-    <div className="container mx-auto h-screen flex flex-col p-4 bg-black text-white">
+    <div className="container mx-auto h-screen flex flex-col p-4">
       <div className="flex items-center gap-2 mb-4">
-        <Moon className="h-6 w-6 text-white" />
+        <Moon className="h-6 w-6" />
         <h1 className="text-xl font-semibold">Wellness Assistant</h1>
       </div>
 
-      <ScrollArea className="flex-1 p-4 border rounded-lg mb-4 bg-gray-900">
+      <ScrollArea className="flex-1 p-4 border rounded-lg mb-4">
         <div className="space-y-4">
           {messages.map((message, index) => (
             <div
               key={index}
-              className={`flex ${message.type === 'user' ? 'justify-end' : 'justify-start'}`}
+              className={`flex ${
+                message.type === 'user' ? 'justify-end' : 'justify-start'
+              }`}
             >
               <div
                 className={`flex gap-2 max-w-[80%] ${
                   message.type === 'user'
-                    ? 'bg-gray-700 text-white'
-                    : 'bg-gray-800 text-white'
+                    ? 'bg-primary text-primary-foreground'
+                    : 'bg-muted'
                 } rounded-lg p-3`}
               >
                 {message.type === 'bot' && (
-                  <Avatar className="h-8 w-8 bg-white">
-                    <Moon className="h-4 w-4 text-black" />
+                  <Avatar className="h-8 w-8">
+                    <Moon className="h-4 w-4" />
                   </Avatar>
                 )}
                 <div>{message.content}</div>
@@ -331,9 +329,9 @@ export default function ConversationalWellness() {
             onKeyPress={(e) => e.key === 'Enter' && handleUserInput()}
             placeholder="Enter your age..."
             type="number"
-            className="flex-1 bg-gray-800 text-white"
+            className="flex-1"
           />
-          <Button onClick={handleUserInput} className="bg-gray-800 text-white hover:bg-gray-700">
+          <Button onClick={handleUserInput}>
             <MessageCircle className="h-4 w-4" />
           </Button>
         </div>
